@@ -1,0 +1,12 @@
+com\quanlykhoahoc\DTO\StudentDTO.class
+com\quanlykhoahoc\DTO\CourseDTO.class
+com\quanlykhoahoc\DTO\OnlineCourseDTO.class
+com\quanlykhoahoc\DTO\StudentGradeDTO.class
+com\quanlykhoahoc\GUI\BaseGUI.class
+com\quanlykhoahoc\DTO\CourseInstructorDTO.class
+com\quanlykhoahoc\DTO\DepartmentDTO.class
+com\quanlykhoahoc\DTO\OnsiteCourseDTO.class
+com\quanlykhoahoc\QuanLyKhoaHoc.class
+com\quanlykhoahoc\DTO\InstructorDTO.class
+com\quanlykhoahoc\DTO\PersonDTO.class
+com\quanlykhoahoc\GUI\BaseGUI$1.class
