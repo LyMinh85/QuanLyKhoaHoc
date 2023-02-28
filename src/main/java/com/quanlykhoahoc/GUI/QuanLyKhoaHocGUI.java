@@ -5,6 +5,9 @@
 package com.quanlykhoahoc.GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.CardLayout;
+import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.UIManager;
 
 /**
@@ -13,11 +16,19 @@ import javax.swing.UIManager;
  */
 public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
 
+    private ArrayList<JButton> listNavbarBtn;
+
     /**
      * Creates new form BaseGUI
      */
     public QuanLyKhoaHocGUI() {
         initComponents();
+        listNavbarBtn = new ArrayList<>();
+        listNavbarBtn.add(btnStudent);
+        listNavbarBtn.add(btnInstructor);
+        listNavbarBtn.add(btnCourse);
+        listNavbarBtn.add(btnCourseInstructor);
+        listNavbarBtn.add(btnStudentGrade);
     }
 
     /**
@@ -29,39 +40,125 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        cardPanel = new javax.swing.JPanel();
+        courseInstructorGUI1 = new com.quanlykhoahoc.GUI.CourseInstructorGUI();
+        jPanel2 = new javax.swing.JPanel();
+        btnStudent = new javax.swing.JButton();
+        btnInstructor = new javax.swing.JButton();
+        btnCourse = new javax.swing.JButton();
+        btnCourseInstructor = new javax.swing.JButton();
+        btnStudentGrade = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý khóa học");
+        setBackground(new java.awt.Color(255, 255, 255));
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        cardPanel.setBackground(new java.awt.Color(255, 255, 255));
+        cardPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
+        cardPanel.setLayout(new java.awt.CardLayout());
+        cardPanel.add(courseInstructorGUI1, "courseInstructorGUI");
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        btnStudent.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-student-male-24.png"))); // NOI18N
+        btnStudent.setText("Student");
+        btnStudent.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnStudent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnStudent.setMargin(new java.awt.Insets(2, 30, 3, 14));
+        btnStudent.setOpaque(true);
+        btnStudent.setPreferredSize(new java.awt.Dimension(125, 40));
+        btnStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStudentActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnStudent);
+
+        btnInstructor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnInstructor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-teacher-24.png"))); // NOI18N
+        btnInstructor.setText("Instructor");
+        btnInstructor.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnInstructor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnInstructor.setMargin(new java.awt.Insets(2, 30, 3, 14));
+        btnInstructor.setPreferredSize(new java.awt.Dimension(125, 40));
+        jPanel2.add(btnInstructor);
+
+        btnCourse.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-e-learning-24.png"))); // NOI18N
+        btnCourse.setText("Course");
+        btnCourse.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnCourse.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCourse.setMargin(new java.awt.Insets(2, 30, 3, 14));
+        btnCourse.setPreferredSize(new java.awt.Dimension(125, 40));
+        jPanel2.add(btnCourse);
+
+        btnCourseInstructor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCourseInstructor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-course-assign-24.png"))); // NOI18N
+        btnCourseInstructor.setText("Course instructor");
+        btnCourseInstructor.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnCourseInstructor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCourseInstructor.setMargin(new java.awt.Insets(2, 30, 3, 14));
+        btnCourseInstructor.setPreferredSize(new java.awt.Dimension(150, 40));
+        btnCourseInstructor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCourseInstructorActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCourseInstructor);
+
+        btnStudentGrade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnStudentGrade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8-scorecard-24.png"))); // NOI18N
+        btnStudentGrade.setText("Student grade");
+        btnStudentGrade.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnStudentGrade.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnStudentGrade.setMargin(new java.awt.Insets(2, 30, 3, 14));
+        btnStudentGrade.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel2.add(btnStudentGrade);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 300, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+            .addComponent(cardPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(cardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        cardPanel.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStudentActionPerformed
+
+    private void btnCourseInstructorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseInstructorActionPerformed
+        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "courseInstructorGUI");
+    }//GEN-LAST:event_btnCourseInstructorActionPerformed
+
+    public void navbarBtnOnSelect(java.awt.event.ActionEvent evt) {
+        listNavbarBtn.forEach(btn -> {
+            if (btn.getText().equalsIgnoreCase(evt.getActionCommand())) {
+                btn.setSelected(true);
+            } else {
+                btn.setSelected(false);
+            }
+        });
+    }
 
     /**
      * @param args the command line arguments
@@ -83,6 +180,13 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton btnCourse;
+    private javax.swing.JButton btnCourseInstructor;
+    private javax.swing.JButton btnInstructor;
+    private javax.swing.JButton btnStudent;
+    private javax.swing.JButton btnStudentGrade;
+    private javax.swing.JPanel cardPanel;
+    private com.quanlykhoahoc.GUI.CourseInstructorGUI courseInstructorGUI1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
