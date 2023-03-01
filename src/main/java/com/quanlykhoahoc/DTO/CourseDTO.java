@@ -6,11 +6,23 @@ public class CourseDTO {
     private int credits;
     private DepartmentDTO department;
 
+    public CourseDTO() {}
+
     public CourseDTO(int courseId, String title, int credits, DepartmentDTO department) {
         this.courseId = courseId;
         this.title = title;
         this.credits = credits;
         this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseDTO{" +
+                "courseId=" + courseId +
+                ", title='" + title + '\'' +
+                ", credits=" + credits +
+                ", department=" + department +
+                '}';
     }
 
     public int getCourseId() {

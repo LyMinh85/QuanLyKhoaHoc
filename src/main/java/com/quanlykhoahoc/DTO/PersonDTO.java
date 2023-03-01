@@ -5,10 +5,20 @@ public class PersonDTO {
     private String lastName;
     private String firstName;
 
+    public PersonDTO() {}
+
     public PersonDTO(int personId, String lastName, String firstName) {
         this.personId = personId;
         this.lastName = lastName;
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "" +
+                "personId=" + personId +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName;
     }
 
     public String getFullName() {

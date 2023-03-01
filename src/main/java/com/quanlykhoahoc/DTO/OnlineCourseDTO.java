@@ -4,6 +4,8 @@ public class OnlineCourseDTO {
     private CourseDTO course;
     private String url;
 
+    public OnlineCourseDTO() {}
+
     public OnlineCourseDTO(CourseDTO course, String url) {
         this.course = course;
         this.url = url;

@@ -9,6 +9,8 @@ public class DepartmentDTO {
     private LocalDate startDate;
     private InstructorDTO administrator;
 
+    public DepartmentDTO() {}
+
     public DepartmentDTO(int departmentId, String name, double budget, LocalDate startDate, InstructorDTO administrator) {
         this.departmentId = departmentId;
         this.name = name;

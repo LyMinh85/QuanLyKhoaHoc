@@ -6,6 +6,8 @@ public class StudentGradeDTO {
     private StudentDTO student;
     private float grade;
 
+    public StudentGradeDTO() {}
+
     public StudentGradeDTO(int enrollmentId, CourseDTO course, StudentDTO student, float grade) {
         this.enrollmentId = enrollmentId;
         this.course = course;

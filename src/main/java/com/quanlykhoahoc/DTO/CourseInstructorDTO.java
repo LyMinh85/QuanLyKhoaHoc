@@ -9,6 +9,21 @@ public class CourseInstructorDTO {
         this.instructor = instructor;
     }
 
+    @Override
+    public String toString() {
+        return "CourseInstructorDTO{" +
+                "course=" + course +
+                ", instructor=" + instructor +
+                '}';
+    }
+
+    public Object[] toObject() {
+        return new Object[]{
+                course.getCourseId(), instructor.getPersonId(), course.getTitle(),
+                course.getCredits(), instructor.getFullName(), instructor.getHireDate()
+        };
+    }
+
     public CourseDTO getCourse() {
         return course;
     }

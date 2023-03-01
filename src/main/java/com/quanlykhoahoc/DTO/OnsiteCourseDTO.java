@@ -8,6 +8,8 @@ public class OnsiteCourseDTO {
     private String days;
     private LocalTime time;
 
+    public OnsiteCourseDTO() {}
+
     public OnsiteCourseDTO(CourseDTO course, String location, String days, LocalTime time) {
         this.course = course;
         this.location = location;
