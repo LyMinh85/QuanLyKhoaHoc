@@ -3,6 +3,7 @@ package com.quanlykhoahoc.BUS;
 import com.quanlykhoahoc.DAO.CourseInstructorDAO;
 import com.quanlykhoahoc.DTO.CourseInstructorDTO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CourseInstructorBUS {

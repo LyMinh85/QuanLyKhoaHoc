@@ -16,6 +16,10 @@ import java.sql.Date;
 public class CourseInstructorDAO {
     private MySQLDatabaseConnector mySQLDatabaseConnector;
 
+    public CourseInstructorDAO() {
+        mySQLDatabaseConnector = new MySQLDatabaseConnector();
+    }
+
     private CourseInstructorDTO convertResultSetToCourseInstructorDTO(ResultSet resultSet) throws SQLException {
         int courseId = resultSet.getInt("CourseID");
         int personId = resultSet.getInt("PersonID");
@@ -35,7 +39,6 @@ public class CourseInstructorDAO {
         ArrayList<CourseInstructorDTO> courseInstructors = null;
         try {
             // Mở kết nối với cơ sở dữ liệu
-            mySQLDatabaseConnector = new MySQLDatabaseConnector();
             Connection conn = mySQLDatabaseConnector.getConnection();
 
             // Khởi tạo arrayList
@@ -69,10 +72,10 @@ public class CourseInstructorDAO {
         return courseInstructors;
     }
 
+    // Add one CourseInstructor
     public boolean add(CourseInstructorDTO courseInstructorDto) {
         try {
             // Mở kết nối với cơ sở dữ liệu
-            mySQLDatabaseConnector = new MySQLDatabaseConnector();
             Connection conn = mySQLDatabaseConnector.getConnection();
 
             String sql = "INSERT INTO CourseInstructor\n" +
@@ -90,6 +93,25 @@ public class CourseInstructorDAO {
             if (rowsInserted > 0) {
                 return true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean update(CourseInstructorDTO courseInstructorDTO) {
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+
+            String queryUpdateOne = "UPDATE CourseInstructor as CI \n" +
+                    "SET CI.CourseID = IsNull(?, CI.CourseID) \n" +
+                    "    CI.PersonID = IsNull(?, CI.PersonID) \n" +
+                    "WHERE CI.CourseID = ? and CI.PersonID = ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(queryUpdateOne)) {
+//                stmt.setInt(1);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

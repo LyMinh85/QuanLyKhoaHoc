@@ -14,14 +14,13 @@ public class MySQLDatabaseConnector {
     private Connection conn;
     private final MysqlDataSource dataSource;
 
-    public MySQLDatabaseConnector() throws SQLException {
+    public MySQLDatabaseConnector() {
         dataSource = new MysqlDataSource();
         dataSource.setServerName(HOST);
         dataSource.setDatabaseName(DATABASE_NAME);
         dataSource.setPortNumber(PORT);
         dataSource.setUser(USERNAME);
         dataSource.setPassword(PASSWORD);
-        conn = dataSource.getConnection();
     }
 
     public Connection getConnection() throws SQLException {
