@@ -9,12 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.sql.Date;
 
 public class CourseInstructorDAO {
-    private MySQLDatabaseConnector mySQLDatabaseConnector;
+    private final MySQLDatabaseConnector mySQLDatabaseConnector;
 
     public CourseInstructorDAO() {
         mySQLDatabaseConnector = new MySQLDatabaseConnector();
@@ -45,10 +44,16 @@ public class CourseInstructorDAO {
             courseInstructors = new ArrayList<>();
 
             // Tạo 1 lệnh sql để lấy tất cả record của bảng CourseInstructor, Course, Person
-            String query = "select Course.CourseID, Person.PersonID, Course.Title, Course.Credits, Course.DepartmentID, Person.Lastname, Person.Firstname, Person.HireDate " +
-                    "from CourseInstructor, Course, Person " +
-                    "where CourseInstructor.CourseID = Course.CourseID " +
-                    "and Person.PersonID = CourseInstructor.PersonID";
+            String query = """
+                    select
+                        Course.CourseID, Person.PersonID, Course.Title,
+                        Course.Credits, Course.DepartmentID, Person.Lastname, Person.Firstname,
+                        Person.HireDate
+                    from CourseInstructor, Course, Person
+                    where
+                        CourseInstructor.CourseID = Course.CourseID
+                        and Person.PersonID = CourseInstructor.PersonID
+                    """;
             // Thực thi query
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 // Kết quả của query
@@ -78,8 +83,10 @@ public class CourseInstructorDAO {
             // Mở kết nối với cơ sở dữ liệu
             Connection conn = mySQLDatabaseConnector.getConnection();
 
-            String sql = "INSERT INTO CourseInstructor\n" +
-                    "VALUES (?, ?)";
+            String sql = """
+                    INSERT INTO CourseInstructor
+                    VALUES (?, ?)
+                    """;
 
             int rowsInserted = 0;
 
@@ -99,23 +106,98 @@ public class CourseInstructorDAO {
         return false;
     }
 
-    public boolean update(CourseInstructorDTO courseInstructorDTO) {
+    public boolean update(int courseId, int instructorId, CourseInstructorDTO courseInstructorDTO) {
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();
 
-            String queryUpdateOne = "UPDATE CourseInstructor as CI \n" +
-                    "SET CI.CourseID = IsNull(?, CI.CourseID) \n" +
-                    "    CI.PersonID = IsNull(?, CI.PersonID) \n" +
-                    "WHERE CI.CourseID = ? and CI.PersonID = ?";
-
+            String queryUpdateOne = """
+                    UPDATE CourseInstructor as CI\s
+                    SET CI.CourseID = IsNull(?, CI.CourseID)\s
+                        CI.PersonID = IsNull(?, CI.PersonID)\s
+                    WHERE CI.CourseID = ? and CI.PersonID = ?""";
+            int rowsUpdated = 0;
             try (PreparedStatement stmt = conn.prepareStatement(queryUpdateOne)) {
-//                stmt.setInt(1);
+                stmt.setInt(1, courseInstructorDTO.getCourse().getCourseId());
+                stmt.setInt(2, courseInstructorDTO.getInstructor().getPersonId());
+                stmt.setInt(3, courseId);
+                stmt.setInt(4, instructorId);
+                rowsUpdated = stmt.executeUpdate();
             }
 
+            mySQLDatabaseConnector.closeConnection();
+            if (rowsUpdated > 0) {
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean delete(int courseId, int instructorId) {
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+
+            String queryDelete = """
+                    DELETE FROM CourseInstructor as CI
+                    WHERE CI.CourseID = ? and CI.PersonID = ?
+                    """;
+
+            int rowDeleted = 0;
+            try (PreparedStatement stmt = conn.prepareStatement(queryDelete)) {
+                stmt.setInt(1, courseId);
+                stmt.setInt(2, instructorId);
+                rowDeleted = stmt.executeUpdate();
+            }
+
+            mySQLDatabaseConnector.closeConnection();
+
+            if (rowDeleted > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<CourseInstructorDTO> findByCourseTitleOrInstructor(String name) {
+        ArrayList<CourseInstructorDTO> courseInstructors = null;
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+            // Tương đương với "%" + name + "%"
+            name = String.format("%%%s%%", name);
+
+
+            String querySearch = """
+                    SELECT
+                        Course.CourseID, Person.PersonID, Course.Title, Course.Credits,\s
+                        Course.DepartmentID, Person.Lastname, Person.Firstname, Person.HireDate
+                    FROM CourseInstructor, Course, Person
+                    WHERE
+                        CourseInstructor.CourseID = Course.CourseID
+                        AND Person.PersonID = CourseInstructor.PersonID
+                        AND (
+                            Course.Title LIKE ?
+                            OR  CONCAT(Person.Lastname, " ", Person.Firstname) LIKE ?
+                            )
+                    """;
+
+            try (PreparedStatement stmt = conn.prepareStatement(querySearch)) {
+                stmt.setString(1, name);
+                stmt.setString(2, name);
+                ResultSet rs = stmt.executeQuery();
+
+                courseInstructors = new ArrayList<>();
+                while (rs.next()) {
+                    courseInstructors.add(convertResultSetToCourseInstructorDTO(rs));
+                }
+                mySQLDatabaseConnector.closeConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courseInstructors;
     }
 
     private LocalDate convertDateToLocalDate(Date date) {
@@ -124,14 +206,18 @@ public class CourseInstructorDAO {
 
     public static void main(String[] args) {
         CourseInstructorDAO courseInstructorDAO = new CourseInstructorDAO();
-        CourseDTO courseDTO = new CourseDTO();
-        courseDTO.setCourseId(3141);
-        InstructorDTO instructorDTO = new InstructorDTO();
-        instructorDTO.setPersonId(2);
-        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseDTO, instructorDTO);
-        if (courseInstructorDAO.add(courseInstructorDTO)) {
-            System.out.println("Add successfully");
-        }
+//        CourseDTO courseDTO = new CourseDTO();
+//        courseDTO.setCourseId(3141);
+//        InstructorDTO instructorDTO = new InstructorDTO();
+//        instructorDTO.setPersonId(2);
+//        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseDTO, instructorDTO);
+//        if (courseInstructorDAO.add(courseInstructorDTO)) {
+//            System.out.println("Add successfully");
+//        }
 
+        var courseInstructors = courseInstructorDAO.findByCourseTitleOrInstructor("Physics");
+        courseInstructors.forEach(courseInstructorDTO -> {
+            System.out.println(courseInstructorDTO.getCourse().getTitle() + " | " + courseInstructorDTO.getInstructor().getFullName());
+        });
     }
 }
