@@ -10,6 +10,8 @@ import com.quanlykhoahoc.DTO.CourseInstructorDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -17,21 +19,40 @@ import java.util.ArrayList;
  * @author pc
  */
 public class CourseInstructorGUI extends javax.swing.JPanel {
-
+    private CourseInstructorBUS courseInstructorBUS;
     /**
      * Creates new form CourseInstructorGUI
      */
     public CourseInstructorGUI() {
         initComponents();
+        courseInstructorBUS = new CourseInstructorBUS();
         showTableData();
+        // Table listener
+        tableCourseInstructor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Double-clicked
+                if (e.getClickCount() == 2) {
+                    tableOnDoubleClick();
+                }
+            }
+        });
     }
 
     private void showTableData() {
-        CourseInstructorBUS courseInstructorBUS = new CourseInstructorBUS();
-        
         DefaultTableModel model = (DefaultTableModel) tableCourseInstructor.getModel();
+        model.setRowCount(0);
         ArrayList<CourseInstructorDTO> courseInstructors = courseInstructorBUS.getCourseInstructors();
         
+        for (CourseInstructorDTO courseInstructor: courseInstructors) {
+            Object[] row = courseInstructor.toObject();
+            model.addRow(row);
+        }
+    }
+
+    private void showTableData(ArrayList<CourseInstructorDTO> courseInstructors) {
+        DefaultTableModel model = (DefaultTableModel) tableCourseInstructor.getModel();
+        model.setRowCount(0);
         for (CourseInstructorDTO courseInstructor: courseInstructors) {
             Object[] row = courseInstructor.toObject();
             model.addRow(row);
@@ -58,7 +79,7 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         cbInstructor = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -97,6 +118,11 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         });
         tableCourseInstructor.setPreferredSize(new java.awt.Dimension(842, 300));
         jScrollPane1.add(tableCourseInstructor);
+        tableCourseInstructor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableOnClick(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCourseInstructor);
         if (tableCourseInstructor.getColumnModel().getColumnCount() > 0) {
             tableCourseInstructor.getColumnModel().getColumn(0).setResizable(false);
@@ -114,6 +140,8 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
             tableCourseInstructor.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
         }
         tableCourseInstructor.getAccessibleContext().setAccessibleName("");
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Course id: ");
@@ -133,24 +161,49 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
 
         btnSearch.setText("Search");
         btnSearch.setPreferredSize(null);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchOnClick(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Search by name: ");
         jLabel4.setPreferredSize(null);
 
-        jTextField1.setPreferredSize(null);
+        txtSearch.setPreferredSize(null);
 
         btnAdd.setText("Add");
         btnAdd.setPreferredSize(new java.awt.Dimension(72, 25));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddOnClick(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
         btnDelete.setPreferredSize(new java.awt.Dimension(72, 25));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteOnClick(evt);
+            }
+        });
 
         btnEdit.setText("Edit");
         btnEdit.setPreferredSize(new java.awt.Dimension(72, 25));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditOnClick(evt);
+            }
+        });
 
         btnReset.setText("Reset");
         btnReset.setPreferredSize(new java.awt.Dimension(72, 25));
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetOnClick(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -165,10 +218,9 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cbCourse, 0, 136, Short.MAX_VALUE)
-                        .addComponent(cbInstructor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(cbCourse, 0, 136, Short.MAX_VALUE)
+                    .addComponent(cbInstructor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,10 +240,10 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbCourse, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -229,6 +281,139 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean isNullOrEmptyString(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+
+    private void btnAddOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOnClick
+        String itemCourse = String.valueOf(cbCourse.getSelectedItem());
+        String itemInstructor = String.valueOf(cbInstructor.getSelectedItem());
+        if (isNullOrEmptyString(itemCourse)) {
+            JOptionPane.showMessageDialog(this,
+                    "The course id field cannot be empty.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (isNullOrEmptyString(itemInstructor)) {
+            JOptionPane.showMessageDialog(this,
+                    "The instructor id field cannot be empty.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int courseId = Integer.parseInt(itemCourse);
+        int instructorId = Integer.parseInt(itemInstructor);
+
+        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseId, instructorId);
+        boolean success = courseInstructorBUS.add(courseInstructorDTO);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Successfully added 1 row.");
+            showTableData();
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to add 1 row.");
+        }
+
+    }//GEN-LAST:event_btnAddOnClick
+
+    private void btnDeleteOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectedRow = tableCourseInstructor.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
+        int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+
+        boolean success = courseInstructorBUS.delete(courseId, instructorId);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Successfully deleted a row.");
+            showTableData();
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Failed to delete a row");
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOnClick
+        String itemCourse = String.valueOf(cbCourse.getSelectedItem());
+        String itemInstructor = String.valueOf(cbInstructor.getSelectedItem());
+        // Check empty field
+        if (isNullOrEmptyString(itemCourse)) {
+            JOptionPane.showMessageDialog(btnAdd,
+                    "The course id field cannot be empty.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (isNullOrEmptyString(itemInstructor)) {
+            JOptionPane.showMessageDialog(btnAdd,
+                    "The instructor id field cannot be empty.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Get Update courseInstructor data
+        int updateCourseId = Integer.parseInt(itemCourse);
+        int updateInstructorId = Integer.parseInt(itemInstructor);
+        CourseInstructorDTO updateCourseInstructor = new CourseInstructorDTO(updateCourseId, updateInstructorId);
+        // Get selected courseInstructor data
+        int selectedRow = tableCourseInstructor.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please choose a row to edit.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
+        int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+
+        boolean success = courseInstructorBUS.update(courseId, instructorId, updateCourseInstructor);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Successfully edited a row.");
+            showTableData();
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Failed to edit a row.");
+    }//GEN-LAST:event_btnEditOnClick
+
+    private void btnResetOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetOnClick
+        cbCourse.setSelectedItem(null);
+        cbInstructor.setSelectedItem(null);
+        txtSearch.setText("");
+        showTableData();
+    }//GEN-LAST:event_btnResetOnClick
+
+    private void btnSearchOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOnClick
+        String name = txtSearch.getText();
+
+        if (isNullOrEmptyString(name)) {
+            JOptionPane.showMessageDialog(this, "Please enter name to search.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        showTableData(courseInstructorBUS.findByCourseTitleOrInstructor(name));
+    }//GEN-LAST:event_btnSearchOnClick
+
+    private void tableOnClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableOnClick
+        int selectedRow = tableCourseInstructor.getSelectedRow();
+
+        if (selectedRow != -1) {
+            int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
+            int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+            cbCourse.setSelectedItem(courseId);
+            cbInstructor.setSelectedItem(instructorId);
+        }
+
+    }//GEN-LAST:event_tableOnClick
+
+    private void tableOnDoubleClick() {
+        int selectedRow = tableCourseInstructor.getSelectedRow();
+        int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
+        int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+
+        CourseInstructorDTO courseInstructor = new CourseInstructorDTO(courseId, instructorId);
+        CourseInstructorDetailGUI detailForm = new CourseInstructorDetailGUI(courseInstructor);
+        detailForm.setLocationRelativeTo(null);
+        detailForm.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -245,7 +430,7 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tableCourseInstructor;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

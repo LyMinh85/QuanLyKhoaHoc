@@ -23,6 +23,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
      */
     public QuanLyKhoaHocGUI() {
         initComponents();
+        setLocationRelativeTo(null);
         listNavbarBtn = new ArrayList<>();
         listNavbarBtn.add(btnStudent);
         listNavbarBtn.add(btnInstructor);
@@ -52,7 +53,6 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý khóa học");
         setBackground(new java.awt.Color(255, 255, 255));
-        setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
@@ -124,7 +124,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(cardPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -145,7 +145,6 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnCourseInstructorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseInstructorActionPerformed
-        // TODO add your handling code here:
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "courseInstructorGUI");
     }//GEN-LAST:event_btnCourseInstructorActionPerformed

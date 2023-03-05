@@ -4,6 +4,14 @@ public class CourseInstructorDTO {
     private CourseDTO course;
     private InstructorDTO instructor;
 
+    public CourseInstructorDTO(int courseId, int instructorId) {
+        course = new CourseDTO();
+        course.setCourseId(courseId);
+
+        instructor = new InstructorDTO();
+        instructor.setPersonId(instructorId);
+    }
+
     public CourseInstructorDTO(CourseDTO course, InstructorDTO instructor) {
         this.course = course;
         this.instructor = instructor;

@@ -94,31 +94,31 @@ public class CourseInstructorDAO {
                 stmt.setInt(1, courseInstructorDto.getCourse().getCourseId());
                 stmt.setInt(2, courseInstructorDto.getInstructor().getPersonId());
                 rowsInserted = stmt.executeUpdate();
+                System.out.println(rowsInserted);
+                if (rowsInserted > 0) {
+                    return true;
+                }
             }
             mySQLDatabaseConnector.closeConnection();
-
-            if (rowsInserted > 0) {
-                return true;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean update(int courseId, int instructorId, CourseInstructorDTO courseInstructorDTO) {
+    public boolean update(int courseId, int instructorId, CourseInstructorDTO updateCourseInstructor) {
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();
 
             String queryUpdateOne = """
-                    UPDATE CourseInstructor as CI\s
-                    SET CI.CourseID = IsNull(?, CI.CourseID)\s
-                        CI.PersonID = IsNull(?, CI.PersonID)\s
-                    WHERE CI.CourseID = ? and CI.PersonID = ?""";
+                    UPDATE CourseInstructor as CI
+                    SET CI.CourseID = ?, CI.PersonID = ?
+                    WHERE CI.CourseID = ? and CI.PersonID = ?
+                    """;
             int rowsUpdated = 0;
             try (PreparedStatement stmt = conn.prepareStatement(queryUpdateOne)) {
-                stmt.setInt(1, courseInstructorDTO.getCourse().getCourseId());
-                stmt.setInt(2, courseInstructorDTO.getInstructor().getPersonId());
+                stmt.setInt(1, updateCourseInstructor.getCourse().getCourseId());
+                stmt.setInt(2, updateCourseInstructor.getInstructor().getPersonId());
                 stmt.setInt(3, courseId);
                 stmt.setInt(4, instructorId);
                 rowsUpdated = stmt.executeUpdate();
@@ -165,13 +165,12 @@ public class CourseInstructorDAO {
         ArrayList<CourseInstructorDTO> courseInstructors = null;
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();
-            // Tương đương với "%" + name + "%"
-            name = String.format("%%%s%%", name);
+            name = "%" + name + "%";
 
 
             String querySearch = """
                     SELECT
-                        Course.CourseID, Person.PersonID, Course.Title, Course.Credits,\s
+                        Course.CourseID, Person.PersonID, Course.Title, Course.Credits,
                         Course.DepartmentID, Person.Lastname, Person.Firstname, Person.HireDate
                     FROM CourseInstructor, Course, Person
                     WHERE
