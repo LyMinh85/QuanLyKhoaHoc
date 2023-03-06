@@ -94,12 +94,12 @@ public class CourseInstructorDAO {
                 stmt.setInt(1, courseInstructorDto.getCourse().getCourseId());
                 stmt.setInt(2, courseInstructorDto.getInstructor().getPersonId());
                 rowsInserted = stmt.executeUpdate();
-                System.out.println(rowsInserted);
-                if (rowsInserted > 0) {
-                    return true;
-                }
             }
             mySQLDatabaseConnector.closeConnection();
+
+            if (rowsInserted > 0) {
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
