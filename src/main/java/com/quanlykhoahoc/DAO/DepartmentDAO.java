@@ -25,7 +25,7 @@ public class DepartmentDAO {
         return department;
     }
 
-    private ArrayList<DepartmentDTO> getDepartments() {
+    public ArrayList<DepartmentDTO> getDepartments() {
         ArrayList<DepartmentDTO> departments = new ArrayList<>();
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();

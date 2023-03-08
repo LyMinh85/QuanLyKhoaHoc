@@ -335,6 +335,16 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnEditOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOnClick
+        // Get selected courseInstructor data
+        int selectedRow = tableCourseInstructor.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please choose a row to edit.",
+                    "Error message", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
+        int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+
         String itemCourse = String.valueOf(cbCourse.getSelectedItem());
         String itemInstructor = String.valueOf(cbInstructor.getSelectedItem());
         // Check empty field
@@ -355,15 +365,7 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         int updateCourseId = Integer.parseInt(itemCourse);
         int updateInstructorId = Integer.parseInt(itemInstructor);
         CourseInstructorDTO updateCourseInstructor = new CourseInstructorDTO(updateCourseId, updateInstructorId);
-        // Get selected courseInstructor data
-        int selectedRow = tableCourseInstructor.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please choose a row to edit.",
-                    "Error message", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
-        int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+
 
         boolean success = courseInstructorBUS.update(courseId, instructorId, updateCourseInstructor);
         if (success) {

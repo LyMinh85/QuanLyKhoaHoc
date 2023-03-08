@@ -43,6 +43,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
 
         cardPanel = new javax.swing.JPanel();
         courseInstructorGUI1 = new com.quanlykhoahoc.GUI.CourseInstructorGUI();
+        onlineCourseGUI1 = new com.quanlykhoahoc.GUI.OnlineCourseGUI();
         jPanel2 = new javax.swing.JPanel();
         btnStudent = new javax.swing.JButton();
         btnInstructor = new javax.swing.JButton();
@@ -60,6 +61,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         cardPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
         cardPanel.setLayout(new java.awt.CardLayout());
         cardPanel.add(courseInstructorGUI1, "courseInstructorGUI");
+        cardPanel.add(onlineCourseGUI1, "onlineCourseGUI");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -95,6 +97,11 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         btnCourse.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnCourse.setMargin(new java.awt.Insets(2, 30, 3, 14));
         btnCourse.setPreferredSize(new java.awt.Dimension(125, 40));
+        btnCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCourseActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCourse);
 
         btnCourseInstructor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -149,6 +156,11 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         cl.show(cardPanel, "courseInstructorGUI");
     }//GEN-LAST:event_btnCourseInstructorActionPerformed
 
+    private void btnCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "onlineCourseGUI");
+    }//GEN-LAST:event_btnCourseActionPerformed
+
     public void navbarBtnOnSelect(java.awt.event.ActionEvent evt) {
         listNavbarBtn.forEach(btn -> {
             if (btn.getText().equalsIgnoreCase(evt.getActionCommand())) {
@@ -187,5 +199,6 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
     private javax.swing.JPanel cardPanel;
     private com.quanlykhoahoc.GUI.CourseInstructorGUI courseInstructorGUI1;
     private javax.swing.JPanel jPanel2;
+    private com.quanlykhoahoc.GUI.OnlineCourseGUI onlineCourseGUI1;
     // End of variables declaration//GEN-END:variables
 }

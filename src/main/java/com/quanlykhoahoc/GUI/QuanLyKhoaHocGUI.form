@@ -73,6 +73,13 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="com.quanlykhoahoc.GUI.OnlineCourseGUI" name="onlineCourseGUI1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="onlineCourseGUI"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -158,6 +165,9 @@
               <Dimension value="[125, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCourseActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCourseInstructor">
           <Properties>

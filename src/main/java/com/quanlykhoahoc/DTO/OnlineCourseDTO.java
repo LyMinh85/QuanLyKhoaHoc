@@ -26,4 +26,10 @@ public class OnlineCourseDTO {
     public void setUrl(String url) {
         this.url = url;
     }
+    public Object[] toObject() {
+        return new Object[]{
+                course.getCourseId(), course.getTitle(), course.getCredits(), course.getDepartment().getName(), url
+                
+        };
+    }
 }
