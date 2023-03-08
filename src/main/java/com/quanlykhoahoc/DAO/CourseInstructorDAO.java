@@ -1,8 +1,6 @@
 package com.quanlykhoahoc.DAO;
 
-import com.quanlykhoahoc.DTO.CourseDTO;
-import com.quanlykhoahoc.DTO.CourseInstructorDTO;
-import com.quanlykhoahoc.DTO.InstructorDTO;
+import com.quanlykhoahoc.DTO.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -204,19 +202,20 @@ public class CourseInstructorDAO {
     }
 
     public static void main(String[] args) {
-        CourseInstructorDAO courseInstructorDAO = new CourseInstructorDAO();
-//        CourseDTO courseDTO = new CourseDTO();
-//        courseDTO.setCourseId(3141);
-//        InstructorDTO instructorDTO = new InstructorDTO();
-//        instructorDTO.setPersonId(2);
-//        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseDTO, instructorDTO);
-//        if (courseInstructorDAO.add(courseInstructorDTO)) {
-//            System.out.println("Add successfully");
-//        }
+//        CourseInstructorDAO courseInstructorDAO = new CourseInstructorDAO();
+////        CourseDTO courseDTO = new CourseDTO();
+////        courseDTO.setCourseId(3141);
+////        InstructorDTO instructorDTO = new InstructorDTO();
+////        instructorDTO.setPersonId(2);
+////        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseDTO, instructorDTO);
+////        if (courseInstructorDAO.add(courseInstructorDTO)) {
+////            System.out.println("Add successfully");
+////        }
+//
+//        var courseInstructors = courseInstructorDAO.findByCourseTitleOrInstructor("Physics");
+//        courseInstructors.forEach(courseInstructorDTO -> {
+//            System.out.println(courseInstructorDTO.getCourse().getTitle() + " | " + courseInstructorDTO.getInstructor().getFullName());
+//        });
 
-        var courseInstructors = courseInstructorDAO.findByCourseTitleOrInstructor("Physics");
-        courseInstructors.forEach(courseInstructorDTO -> {
-            System.out.println(courseInstructorDTO.getCourse().getTitle() + " | " + courseInstructorDTO.getInstructor().getFullName());
-        });
     }
 }
