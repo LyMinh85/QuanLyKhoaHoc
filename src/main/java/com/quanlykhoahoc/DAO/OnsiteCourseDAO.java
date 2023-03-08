@@ -141,13 +141,15 @@ public class OnsiteCourseDAO {
         return false;
     }
 
-    public OnsiteCourseDTO findById(int courseId) {
-        OnsiteCourseDTO onsiteCourse = null;
+    public ArrayList<OnsiteCourseDTO> findById(int courseId) {
+        ArrayList<OnsiteCourseDTO> onsiteCourses = null;
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();
+            onsiteCourses = new ArrayList<>();
             String querySearch = """
                     select
-                        course.CourseID, Title, Credits, course.DepartmentID, department.Name , Location, Days, Time
+                        course.CourseID, Title, Credits, course.DepartmentID,
+                        department.Name , Location, Days, Time
                     from Course, OnsiteCourse, Department
                     where
                         course.CourseID = onsitecourse.CourseID and
@@ -158,15 +160,15 @@ public class OnsiteCourseDAO {
             try (PreparedStatement stmt = conn.prepareStatement(querySearch)) {
                 stmt.setInt(1, courseId);
                 ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    onsiteCourse = convertResultSetToOnsiteCourseDTO(rs);
+                while (rs.next()) {
+                    onsiteCourses.add(convertResultSetToOnsiteCourseDTO(rs));
                 }
                 mySQLDatabaseConnector.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return onsiteCourse;
+        return onsiteCourses;
     }
 
     public ArrayList<OnsiteCourseDTO> findByName(String name) {

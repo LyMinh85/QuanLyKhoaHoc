@@ -22,10 +22,9 @@ public class CourseInstructorDAO {
         int personId = resultSet.getInt("PersonID");
         String title = resultSet.getString("Title");
         int credits = resultSet.getInt("Credits");
-        int departmentId = resultSet.getInt("DepartmentID");
         String lastName = resultSet.getString("Lastname");
         String firstName = resultSet.getString("Firstname");
-        LocalDate hireDate = convertDateToLocalDate(resultSet.getDate("HireDate"));
+        LocalDate hireDate = resultSet.getDate("HireDate").toLocalDate();
 
         CourseDTO courseDTO = new CourseDTO(courseId, title, credits, null);
         InstructorDTO instructorDTO = new InstructorDTO(personId, lastName, firstName, hireDate);
@@ -45,7 +44,7 @@ public class CourseInstructorDAO {
             String query = """
                     select
                         Course.CourseID, Person.PersonID, Course.Title,
-                        Course.Credits, Course.DepartmentID, Person.Lastname, Person.Firstname,
+                        Course.Credits, Person.Lastname, Person.Firstname,
                         Person.HireDate
                     from CourseInstructor, Course, Person
                     where
@@ -169,7 +168,7 @@ public class CourseInstructorDAO {
             String querySearch = """
                     SELECT
                         Course.CourseID, Person.PersonID, Course.Title, Course.Credits,
-                        Course.DepartmentID, Person.Lastname, Person.Firstname, Person.HireDate
+                        Person.Lastname, Person.Firstname, Person.HireDate
                     FROM CourseInstructor, Course, Person
                     WHERE
                         CourseInstructor.CourseID = Course.CourseID
@@ -197,25 +196,4 @@ public class CourseInstructorDAO {
         return courseInstructors;
     }
 
-    private LocalDate convertDateToLocalDate(Date date) {
-        return date.toLocalDate();
-    }
-
-    public static void main(String[] args) {
-//        CourseInstructorDAO courseInstructorDAO = new CourseInstructorDAO();
-////        CourseDTO courseDTO = new CourseDTO();
-////        courseDTO.setCourseId(3141);
-////        InstructorDTO instructorDTO = new InstructorDTO();
-////        instructorDTO.setPersonId(2);
-////        CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseDTO, instructorDTO);
-////        if (courseInstructorDAO.add(courseInstructorDTO)) {
-////            System.out.println("Add successfully");
-////        }
-//
-//        var courseInstructors = courseInstructorDAO.findByCourseTitleOrInstructor("Physics");
-//        courseInstructors.forEach(courseInstructorDTO -> {
-//            System.out.println(courseInstructorDTO.getCourse().getTitle() + " | " + courseInstructorDTO.getInstructor().getFullName());
-//        });
-
-    }
 }
