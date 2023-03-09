@@ -61,7 +61,7 @@ public class OnsiteCourseDAO {
         return onsiteCourses;
     }
 
-    public boolean add(OnsiteCourseDTO onsiteCourseDTO) {
+    public boolean addOnsiteCourse(OnsiteCourseDTO onsiteCourseDTO) {
         try {
             Connection conn = mySQLDatabaseConnector.getConnection();
             String sql = """
@@ -95,15 +95,19 @@ public class OnsiteCourseDAO {
 
             String queryUpdateOne = """
                     UPDATE onsitecourse
-                    SET onsitecourse.Location = ?, onsitecourse.Days = ?, onsitecourse.Time = ?
+                    INNER JOIN course ON course.CourseID = onsitecourse.CourseID
+                    SET Title = ?, Credits = ?, DepartmentID = ?, Location = ?, Days = ?, Time = ?
                     WHERE onsitecourse.CourseID = ?
                     """;
             int rowsUpdated = 0;
             try (PreparedStatement stmt = conn.prepareStatement(queryUpdateOne)) {
-                stmt.setString(1, updateOnsiteCourse.getLocation());
-                stmt.setString(2, updateOnsiteCourse.getDays());
-                stmt.setTime(3, Time.valueOf(updateOnsiteCourse.getTime()));
-                stmt.setInt(4, updateOnsiteCourse.getCourse().getCourseId());
+                stmt.setString(1, updateOnsiteCourse.getCourse().getTitle());
+                stmt.setInt(2, updateOnsiteCourse.getCourse().getCredits());
+                stmt.setInt(3, updateOnsiteCourse.getCourse().getDepartment().getDepartmentId());
+                stmt.setString(4, updateOnsiteCourse.getLocation());
+                stmt.setString(5, updateOnsiteCourse.getDays());
+                stmt.setTime(6, Time.valueOf(updateOnsiteCourse.getTime()));
+                stmt.setInt(7, updateOnsiteCourse.getCourse().getCourseId());
                 rowsUpdated = stmt.executeUpdate();
             }
 

@@ -1,6 +1,7 @@
 package com.quanlykhoahoc.DTO;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class DepartmentDTO {
     private int departmentId;
@@ -57,5 +58,10 @@ public class DepartmentDTO {
 
     public void setAdministrator(InstructorDTO administrator) {
         this.administrator = administrator;
+    }
+
+    public static void main(String[] args) {
+        LocalTime localTime = LocalTime.of(15, 20);
+        System.out.println(localTime.toString());
     }
 }

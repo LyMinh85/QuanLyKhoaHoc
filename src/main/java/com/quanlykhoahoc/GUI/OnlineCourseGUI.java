@@ -29,7 +29,6 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
             cbDepartmentName.addItem(department);
         }
         cbDepartmentName.setRenderer(new DepartmentComboBoxRender());
-
     }
 
     private boolean isNullOrEmptyString(String str) {
@@ -519,19 +518,6 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
 //        DepartmentDTO item = (DepartmentDTO) comboBox.getSelectedItem();
 //        System.out.println(item.getDepartmentId() + "-" + item.getName());
     }//GEN-LAST:event_cbDepartmentNameActionPerformed
-
-
-    private class DepartmentComboBoxRender extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (value instanceof DepartmentDTO) {
-                DepartmentDTO department = (DepartmentDTO) value;
-                setText(department.getName());
-            }
-            return this;
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

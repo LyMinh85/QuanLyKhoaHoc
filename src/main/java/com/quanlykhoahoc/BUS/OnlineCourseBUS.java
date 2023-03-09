@@ -1,5 +1,6 @@
 package com.quanlykhoahoc.BUS;
 
+import com.quanlykhoahoc.DAO.CourseDAO;
 import com.quanlykhoahoc.DAO.DepartmentDAO;
 import com.quanlykhoahoc.DTO.CourseDTO;
 import com.quanlykhoahoc.DAO.OnlineCourseDAO;
@@ -10,16 +11,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OnlineCourseBUS {
-    private OnlineCourseDAO onlineCourseDAO;
+    private final OnlineCourseDAO onlineCourseDAO;
+    private final DepartmentDAO departmentDAO;
+    private final CourseDAO courseDAO;
     private ArrayList<OnlineCourseDTO> onlineCourses;
-    private DepartmentDAO departmentDAO;
     private ArrayList<DepartmentDTO> departments;
 
     public OnlineCourseBUS() {
         onlineCourseDAO = new OnlineCourseDAO();
-        onlineCourses = new ArrayList<>();
         departmentDAO = new DepartmentDAO();
+        courseDAO = new CourseDAO();
         departments = new ArrayList<>();
+        onlineCourses = new ArrayList<>();
     }
 
     public ArrayList<OnlineCourseDTO> getOnlineCourses() {
@@ -28,8 +31,7 @@ public class OnlineCourseBUS {
     }
 
     public boolean addOnlineCourse(OnlineCourseDTO onlineCourseDto) {
-        int courseId = onlineCourseDAO.addCourse(onlineCourseDto.getCourse());
-        System.out.println("CourseId = " + courseId);
+        int courseId = courseDAO.addCourse(onlineCourseDto.getCourse());
         onlineCourseDto.getCourse().setCourseId(courseId);
         return onlineCourseDAO.addOnlineCourse(onlineCourseDto);
     }

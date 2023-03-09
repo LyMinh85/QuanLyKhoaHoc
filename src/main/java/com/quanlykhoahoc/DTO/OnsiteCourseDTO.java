@@ -8,13 +8,22 @@ public class OnsiteCourseDTO {
     private String days;
     private LocalTime time;
 
-    public OnsiteCourseDTO() {}
+    public OnsiteCourseDTO() {
+    }
 
     public OnsiteCourseDTO(CourseDTO course, String location, String days, LocalTime time) {
         this.course = course;
         this.location = location;
         this.days = days;
         this.time = time;
+    }
+
+    public Object[] toObject() {
+        return new Object[]{
+                course.getCourseId(), course.getTitle(), course.getCredits(),
+                course.getDepartment().getName(), this.getLocation(),
+                this.getDays(), this.getTime().toString()
+        };
     }
 
     public CourseDTO getCourse() {
