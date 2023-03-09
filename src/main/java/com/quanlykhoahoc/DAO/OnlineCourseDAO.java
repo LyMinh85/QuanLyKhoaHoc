@@ -45,7 +45,7 @@ public class OnlineCourseDAO {
             String query = """
                     SELECT
                         Course.CourseID, Course.Title, Course.Credits, Course.DepartmentID,
-                        OnlineCourse.Url, Name
+                        OnlineCourse.Url, department.Name
                     FROM OnlineCourse
                     JOIN Course ON OnlineCourse.CourseID = Course.CourseID
                     JOIN department ON department.DepartmentID = Course.DepartmentID
@@ -175,9 +175,12 @@ public class OnlineCourseDAO {
             Connection conn = mySQLDatabaseConnector.getConnection();
             courseTitle = "%" + courseTitle + "%";
             String query = """
-                    SELECT Course.CourseID, Course.Title, Course.Credits, Course.DepartmentID, OnlineCourse.Url
+                    SELECT
+                        Course.CourseID, Course.Title, Course.Credits, Course.DepartmentID,
+                        OnlineCourse.Url, department.Name
                     FROM OnlineCourse
                     JOIN Course ON OnlineCourse.CourseID = Course.CourseID
+                    JOIN department ON department.DepartmentID = Course.DepartmentID
                     WHERE Course.Title like ?;
                     """;
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
