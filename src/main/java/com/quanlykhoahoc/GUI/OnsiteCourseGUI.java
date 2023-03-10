@@ -176,7 +176,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAddOnClick(evt);
             }
         });
         jPanel2.add(btnAdd);
@@ -185,7 +185,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnEditOnClick(evt);
             }
         });
         jPanel2.add(btnUpdate);
@@ -198,7 +198,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnSearchOnClick(evt);
             }
         });
         jPanel2.add(btnSearch);
@@ -207,7 +207,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDeleteOnClick(evt);
             }
         });
         jPanel2.add(btnDelete);
@@ -216,7 +216,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         btnReset.setText("Reset");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+                btnResetOnClick(evt);
             }
         });
         jPanel2.add(btnReset);
@@ -377,7 +377,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbDepartmentActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteOnClick
         int selectedRow = tableOnsiteCourseGUI.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a row to delete",
@@ -393,13 +393,13 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         }
         JOptionPane.showMessageDialog(this, "Failed to delete a row");
             
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnDeleteOnClick
 
     private void txtTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTitleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTitleActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnAddOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOnClick
         String title = txtTitle.getText();
         String credits = txtCredits.getText();
         String location = txtLocation.getText();
@@ -455,9 +455,9 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Failed to add 1 row.");
         }
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnAddOnClick
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnEditOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOnClick
         String title = txtTitle.getText();
         String credits = txtCredits.getText();
         String location = txtLocation.getText();
@@ -520,9 +520,9 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
             return;
         }
         JOptionPane.showMessageDialog(this, "Failed to update a row.");
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnEditOnClick
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    private void btnSearchOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOnClick
         String name = txtSearch.getText();
 
         if (isNullOrEmptyString(name)) {
@@ -531,9 +531,9 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
             return;
         }
         showTableData(onsiteCourseBUS.findByName(name));
-    }//GEN-LAST:event_btnSearchActionPerformed
+    }//GEN-LAST:event_btnSearchOnClick
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+    private void btnResetOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetOnClick
         txtTitle.setText(null);
         txtCredits.setText(null);
         txtLocation.setText(null);
@@ -543,7 +543,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         spnMinutes.setValue(0);
         showTableData();   
                
-    }//GEN-LAST:event_btnResetActionPerformed
+    }//GEN-LAST:event_btnResetOnClick
 
     private void tableOnClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableOnClick
         int selectedRow = tableOnsiteCourseGUI.getSelectedRow();

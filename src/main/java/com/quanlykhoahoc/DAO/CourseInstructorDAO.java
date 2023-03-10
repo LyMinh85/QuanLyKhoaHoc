@@ -40,7 +40,8 @@ public class CourseInstructorDAO {
             // Khởi tạo arrayList
             courseInstructors = new ArrayList<>();
 
-            // Tạo 1 lệnh sql để lấy tất cả record của bảng CourseInstructor, Course, Person
+            // Tạo 1 lệnh sql để lấy tất cả
+            // record của bảng CourseInstructor, Course, Person
             String query = """
                     select
                         Course.CourseID, Person.PersonID, Course.Title,
@@ -58,7 +59,8 @@ public class CourseInstructorDAO {
                 // Lặp hết các dòng của resultSet và thêm vô danh sách courseInstructors
                 while (rs.next()) {
                     // Do việc chuyển ResultSet sang CourseInstructorDTO
-                    // Sẽ sử dụng nhiều lần nên tạo function convertResultSetToCourseInstructorDTO
+                    // Sẽ sử dụng nhiều lần nên tạo
+                    // function convertResultSetToCourseInstructorDTO
                     // Để sử dụng lại
                     courseInstructors.add(convertResultSetToCourseInstructorDTO(rs));
                 }

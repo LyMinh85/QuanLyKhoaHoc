@@ -5,7 +5,8 @@
 package com.quanlykhoahoc.GUI;
 
 import com.quanlykhoahoc.BUS.CourseInstructorBUS;
-import com.quanlykhoahoc.DTO.CourseInstructorDTO;
+import com.quanlykhoahoc.DAO.InstructorDAO;
+import com.quanlykhoahoc.DTO.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,14 +21,15 @@ import java.util.ArrayList;
  * @author pc
  */
 public class CourseInstructorGUI extends javax.swing.JPanel {
-    private CourseInstructorBUS courseInstructorBUS;
+    private final CourseInstructorBUS courseInstructorBUS = new CourseInstructorBUS();
     /**
      * Creates new form CourseInstructorGUI
      */
     public CourseInstructorGUI() {
         initComponents();
-        courseInstructorBUS = new CourseInstructorBUS();
         showTableData();
+        populateCourseComboBox();
+        populateStudentComboBox();
         // Table listener
         tableCourseInstructor.addMouseListener(new MouseAdapter() {
             @Override
@@ -38,6 +40,22 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
                 }
             }
         });
+    }
+
+    private void populateStudentComboBox() {
+        ArrayList<InstructorDTO> instructors = courseInstructorBUS.getInstructors();
+        for (InstructorDTO instructor : instructors) {
+            cbInstructor.addItem(instructor);
+        }
+        cbInstructor.setRenderer(new InstructorComboBoxRender());
+    }
+
+    private void populateCourseComboBox() {
+        ArrayList<CourseDTO> courses = courseInstructorBUS.getCourse();
+        for (CourseDTO course : courses) {
+            cbCourse.addItem(course);
+        }
+        cbCourse.setRenderer(new CourseComboBoxRender());
     }
 
     private void changeTableHeight(JTable table) {
@@ -161,11 +179,9 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         jLabel3.setText("Instructor id: ");
         jLabel3.setPreferredSize(null);
 
-        cbCourse.setEditable(true);
         cbCourse.setMinimumSize(new java.awt.Dimension(72, 25));
         cbCourse.setPreferredSize(null);
 
-        cbInstructor.setEditable(true);
         cbInstructor.setMinimumSize(new java.awt.Dimension(72, 25));
         cbInstructor.setPreferredSize(null);
 
@@ -296,23 +312,8 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
     }
 
     private void btnAddOnClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOnClick
-        String itemCourse = String.valueOf(cbCourse.getSelectedItem());
-        String itemInstructor = String.valueOf(cbInstructor.getSelectedItem());
-        if (isNullOrEmptyString(itemCourse)) {
-            JOptionPane.showMessageDialog(this,
-                    "The course id field cannot be empty.",
-                    "Error message", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (isNullOrEmptyString(itemInstructor)) {
-            JOptionPane.showMessageDialog(this,
-                    "The instructor id field cannot be empty.",
-                    "Error message", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int courseId = Integer.parseInt(itemCourse);
-        int instructorId = Integer.parseInt(itemInstructor);
+        int courseId = ((CourseDTO) cbCourse.getSelectedItem()).getCourseId();
+        int instructorId = ((InstructorDTO) cbInstructor.getSelectedItem()).getPersonId();
 
         CourseInstructorDTO courseInstructorDTO = new CourseInstructorDTO(courseId, instructorId);
         boolean success = courseInstructorBUS.add(courseInstructorDTO);
@@ -355,27 +356,10 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
         int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
 
-        String itemCourse = String.valueOf(cbCourse.getSelectedItem());
-        String itemInstructor = String.valueOf(cbInstructor.getSelectedItem());
-        // Check empty field
-        if (isNullOrEmptyString(itemCourse)) {
-            JOptionPane.showMessageDialog(btnAdd,
-                    "The course id field cannot be empty.",
-                    "Error message", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (isNullOrEmptyString(itemInstructor)) {
-            JOptionPane.showMessageDialog(btnAdd,
-                    "The instructor id field cannot be empty.",
-                    "Error message", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         // Get Update courseInstructor data
-        int updateCourseId = Integer.parseInt(itemCourse);
-        int updateInstructorId = Integer.parseInt(itemInstructor);
+        int updateCourseId = ((CourseDTO) cbCourse.getSelectedItem()).getCourseId();
+        int updateInstructorId = ((InstructorDTO) cbInstructor.getSelectedItem()).getPersonId();
         CourseInstructorDTO updateCourseInstructor = new CourseInstructorDTO(updateCourseId, updateInstructorId);
-
 
         boolean success = courseInstructorBUS.update(courseId, instructorId, updateCourseInstructor);
         if (success) {
@@ -410,8 +394,8 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         if (selectedRow != -1) {
             int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
             int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
-            cbCourse.setSelectedItem(courseId);
-            cbInstructor.setSelectedItem(instructorId);
+            cbCourse.setSelectedItem(courseInstructorBUS.findCourseById(courseId));
+            cbInstructor.setSelectedItem(courseInstructorBUS.findInstructorById(instructorId));
         }
 
     }//GEN-LAST:event_tableOnClick
@@ -420,8 +404,10 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         int selectedRow = tableCourseInstructor.getSelectedRow();
         int courseId = (int) tableCourseInstructor.getValueAt(selectedRow, 0);
         int instructorId = (int) tableCourseInstructor.getValueAt(selectedRow, 1);
+        CourseDTO course = courseInstructorBUS.findCourseById(courseId);
+        InstructorDTO instructor = courseInstructorBUS.findInstructorById(instructorId);
 
-        CourseInstructorDTO courseInstructor = new CourseInstructorDTO(courseId, instructorId);
+        CourseInstructorDTO courseInstructor = new CourseInstructorDTO(course, instructor);
         CourseInstructorDetailGUI detailForm = new CourseInstructorDetailGUI(courseInstructor);
         detailForm.setLocationRelativeTo(null);
         detailForm.setVisible(true);
@@ -433,8 +419,8 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox<String> cbCourse;
-    private javax.swing.JComboBox<String> cbInstructor;
+    private javax.swing.JComboBox<CourseDTO> cbCourse;
+    private javax.swing.JComboBox<InstructorDTO> cbInstructor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

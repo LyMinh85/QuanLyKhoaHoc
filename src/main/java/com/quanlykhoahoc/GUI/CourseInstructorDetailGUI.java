@@ -17,8 +17,15 @@ public class CourseInstructorDetailGUI extends javax.swing.JFrame {
      */
     public CourseInstructorDetailGUI(CourseInstructorDTO courseInstructor) {
         initComponents();
+        // Couse
         txtCourseId.setText(String.valueOf(courseInstructor.getCourse().getCourseId()));
+        txtCourseTitle.setText(courseInstructor.getCourse().getTitle());
+        txtCourseCredits.setText(String.valueOf(courseInstructor.getCourse().getCredits()));
+        txtCourseDepartment.setText(courseInstructor.getCourse().getDepartment().getName());
+        // Instructor
         txtInstructorId.setText(String.valueOf(courseInstructor.getInstructor().getPersonId()));
+        txtInstructorName.setText(courseInstructor.getInstructor().getFullName());
+        txtInstructorHireDate.setText(String.valueOf(courseInstructor.getInstructor().getHireDate()));
     }
 
     /**
