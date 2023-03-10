@@ -41,8 +41,8 @@ public class StudentGradeDAO {
             String queryGetAll = """
                     select enrollmentid, course.CourseID, studentid, grade, lastname, firstname, title, credits
                     from studentgrade
-                    inner join course on studentgrade.CourseID = course.CourseID
-                    inner join person on studentgrade.StudentID = person.PersonID
+                    join course on studentgrade.CourseID = course.CourseID
+                    join person on studentgrade.StudentID = person.PersonID
                     """;
             try (PreparedStatement stmt = conn.prepareStatement(queryGetAll)) {
                 ResultSet rs = stmt.executeQuery();
@@ -57,6 +57,74 @@ public class StudentGradeDAO {
             e.printStackTrace();
         }
         return studentGrades;
+    }
+
+    public boolean add(StudentGradeDTO studentGradeDTO) {
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+            String queryFindIfExist = """
+                    select count(1) as total from studentgrade
+                    where CourseID = ? and StudentID = ?
+                    """;
+            int total = 0;
+            try (PreparedStatement stmt = conn.prepareStatement(queryFindIfExist)) {
+                stmt.setInt(1, studentGradeDTO.getCourse().getCourseId());
+                stmt.setInt(2, studentGradeDTO.getStudent().getPersonId());
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    total = rs.getInt("Total");
+                }
+            }
+            // Nếu đã tồn tại học sinh học khóa đó
+            if (total > 0) {
+                return false;
+            }
+
+            String queryAdd = """
+                    INSERT INTO studentgrade (CourseID, StudentID, Grade)
+                    VALUES (?, ?, ?)
+                    """;
+            int rowsAdd = 0;
+            try (PreparedStatement stmt = conn.prepareStatement(queryAdd)) {
+                stmt.setInt(1, studentGradeDTO.getCourse().getCourseId());
+                stmt.setInt(2, studentGradeDTO.getStudent().getPersonId());
+                stmt.setFloat(3, studentGradeDTO.getGrade());
+                rowsAdd = stmt.executeUpdate();
+            }
+            mySQLDatabaseConnector.closeConnection();
+            if (rowsAdd > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean update(StudentGradeDTO updateStudentGrade) {
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+            String queryUpdate = """
+                    UPDATE studentgrade
+                    SET CourseID = ?, StudentID = ?, Grade = ?
+                    WHERE EnrollmentID = ?
+                    """;
+            int rowsUpdate = 0;
+            try (PreparedStatement stmt = conn.prepareStatement(queryUpdate)) {
+                stmt.setInt(1, updateStudentGrade.getCourse().getCourseId());
+                stmt.setInt(2, updateStudentGrade.getStudent().getPersonId());
+                stmt.setFloat(3, updateStudentGrade.getGrade());
+                stmt.setInt(4, updateStudentGrade.getEnrollmentId());
+                rowsUpdate = stmt.executeUpdate();
+            }
+            mySQLDatabaseConnector.closeConnection();
+            if (rowsUpdate > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean delete(int enrollmentId) {

@@ -1,8 +1,10 @@
 package com.quanlykhoahoc.DAO;
 
 import com.quanlykhoahoc.DTO.CourseDTO;
+import com.quanlykhoahoc.DTO.StudentDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CourseDAO {
     private MySQLDatabaseConnector mySQLDatabaseConnector;
@@ -33,5 +35,29 @@ public class CourseDAO {
             }
         }
         return -1;
+    }
+
+    public CourseDTO convertResultSetToCourseDTO(ResultSet rs) throws SQLException {
+        int courseID = rs.getInt("CourseID");
+        String title = rs.getString("Title");
+        return new CourseDTO(courseID, title, 0, null);
+    }
+
+    public ArrayList<CourseDTO> getCourses() {
+        ArrayList<CourseDTO> courses = new ArrayList<>();
+        try {
+            Connection conn = mySQLDatabaseConnector.getConnection();
+            String sql = "select CourseID, Title from course";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    courses.add(convertResultSetToCourseDTO(rs));
+                }
+            }
+            mySQLDatabaseConnector.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
     }
 }

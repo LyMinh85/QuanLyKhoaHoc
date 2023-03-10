@@ -10,6 +10,7 @@ import com.quanlykhoahoc.DTO.CourseInstructorDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -39,6 +40,13 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
         });
     }
 
+    private void changeTableHeight(JTable table) {
+        int rowHeight = table.getRowHeight();
+        int numRows = table.getRowCount();
+        int height = numRows * rowHeight;
+        table.setPreferredSize(new Dimension(table.getPreferredSize().width, height));
+    }
+
     private void showTableData() {
         DefaultTableModel model = (DefaultTableModel) tableCourseInstructor.getModel();
         model.setRowCount(0);
@@ -48,6 +56,7 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
             Object[] row = courseInstructor.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableCourseInstructor);
     }
 
     private void showTableData(ArrayList<CourseInstructorDTO> courseInstructors) {
@@ -57,6 +66,7 @@ public class CourseInstructorGUI extends javax.swing.JPanel {
             Object[] row = courseInstructor.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableCourseInstructor);
     }
 
     /**

@@ -7,10 +7,11 @@ import com.quanlykhoahoc.DTO.DepartmentDTO;
 import com.quanlykhoahoc.DTO.OnlineCourseDTO;
 import com.quanlykhoahoc.DTO.OnsiteCourseDTO;
 import static com.quanlykhoahoc.GUI.OnlineCourseGUI.isNumeric;
+
+import java.awt.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,6 +48,13 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
         cbbDepartment.setRenderer(new DepartmentComboBoxRender());
     }
 
+    private void changeTableHeight(JTable table) {
+        int rowHeight = table.getRowHeight();
+        int numRows = table.getRowCount();
+        int height = numRows * rowHeight;
+        table.setPreferredSize(new Dimension(table.getPreferredSize().width, height));
+    }
+
     private void showTableData() {
         DefaultTableModel model = (DefaultTableModel) tableOnsiteCourseGUI.getModel();
         model.setRowCount(0);
@@ -56,6 +64,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
             Object[] row = onsiteCourse.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableOnsiteCourseGUI);
     }
     
     private void showTableData(ArrayList<OnsiteCourseDTO> onsiteCourses) {
@@ -65,6 +74,7 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
             Object[] row = onsiteCourse.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableOnsiteCourseGUI);
     }
 
     /**
@@ -354,8 +364,8 @@ public class OnsiteCourseGUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 

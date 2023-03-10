@@ -35,6 +35,13 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
         return str == null || str.trim().isEmpty();
     }
 
+    private void changeTableHeight(JTable table) {
+        int rowHeight = table.getRowHeight();
+        int numRows = table.getRowCount();
+        int height = numRows * rowHeight;
+        table.setPreferredSize(new Dimension(table.getPreferredSize().width, height));
+    }
+
     private void showTableData() {
         DefaultTableModel model = (DefaultTableModel) tableOnlineCourse.getModel();
         model.setRowCount(0);
@@ -44,6 +51,7 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
             Object[] row = onlineCourse.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableOnlineCourse);
     }
 
     private void showTableData(ArrayList<OnlineCourseDTO> onlineCourses) {
@@ -53,6 +61,7 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
             Object[] row = onlineCourse.toObject();
             model.addRow(row);
         }
+        changeTableHeight(tableOnlineCourse);
     }
 
     public static boolean isNumeric(String str) {
@@ -309,7 +318,7 @@ public class OnlineCourseGUI extends javax.swing.JPanel {
                             .addComponent(cbDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 

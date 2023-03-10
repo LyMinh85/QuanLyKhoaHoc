@@ -15,6 +15,23 @@ public class StudentGradeDTO {
         this.grade = grade;
     }
 
+    public Object[] toObject() {
+        return new Object[] {
+            enrollmentId, student.getPersonId(), student.getFullName(),
+            course.getCourseId(), course.getTitle(), course.getCredits(), grade
+        };
+    }
+
+    @Override
+    public String toString() {
+        return "StudentGradeDTO{" +
+                "enrollmentId=" + enrollmentId +
+                ", courseId=" + course.getCourseId() +
+                ", studentId=" + student.getPersonId() +
+                ", grade=" + grade +
+                '}';
+    }
+
     public int getEnrollmentId() {
         return enrollmentId;
     }

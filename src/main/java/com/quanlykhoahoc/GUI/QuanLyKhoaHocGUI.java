@@ -44,6 +44,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         courseInstructorGUI1 = new com.quanlykhoahoc.GUI.CourseInstructorGUI();
         onlineCourseGUI1 = new com.quanlykhoahoc.GUI.OnlineCourseGUI();
         onsiteCourseGUI1 = new com.quanlykhoahoc.GUI.OnsiteCourseGUI();
+        studentGradeGUI1 = new com.quanlykhoahoc.GUI.StudentGradeGUI();
         jPanel2 = new javax.swing.JPanel();
         btnCourseInstructor = new javax.swing.JButton();
         btnOnsiteCourse = new javax.swing.JButton();
@@ -62,6 +63,7 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         cardPanel.add(courseInstructorGUI1, "courseInstructorGUI");
         cardPanel.add(onlineCourseGUI1, "onlineCourseGUI");
         cardPanel.add(onsiteCourseGUI1, "onsiteCourseGUI");
+        cardPanel.add(studentGradeGUI1, "studentGradeGUI");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -115,6 +117,11 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         btnStudentGrade.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnStudentGrade.setMargin(new java.awt.Insets(2, 30, 3, 14));
         btnStudentGrade.setPreferredSize(new java.awt.Dimension(180, 40));
+        btnStudentGrade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStudentGradeActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnStudentGrade);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -151,6 +158,11 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "onsiteCourseGUI");
     }//GEN-LAST:event_btnOnsiteCourseActionPerformed
+
+    private void btnStudentGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentGradeActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "studentGradeGUI");
+    }//GEN-LAST:event_btnStudentGradeActionPerformed
 
     public void navbarBtnOnSelect(java.awt.event.ActionEvent evt) {
         listNavbarBtn.forEach(btn -> {
@@ -191,5 +203,6 @@ public class QuanLyKhoaHocGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private com.quanlykhoahoc.GUI.OnlineCourseGUI onlineCourseGUI1;
     private com.quanlykhoahoc.GUI.OnsiteCourseGUI onsiteCourseGUI1;
+    private com.quanlykhoahoc.GUI.StudentGradeGUI studentGradeGUI1;
     // End of variables declaration//GEN-END:variables
 }
